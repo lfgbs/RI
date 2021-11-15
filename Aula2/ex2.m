@@ -10,6 +10,7 @@ P10=[-0.5, 0, 0]'
 
 axis([-5 5 -5 5])
 
+
 xlabel('x')
 ylabel('y')
 zlabel('z')
@@ -17,10 +18,10 @@ axis equal
 grid on
 hold on
 
-A=[P4, P5, P6, P7, P8, P9, P10]
+A=[P4,P5,P6,P7,P8, P9,P10]
 
 %generic arrow used for transformations
-arrow=patch('XData', A(1,:) ,'YData', A(2,:),'ZData', A(3,:), 'FaceColor', 'interp')
+arrow=patch('XData', A(1,:) ,'YData', A(2,:),'ZData', A(3,:))
 
 A1=arrow
 A2=arrow
@@ -87,5 +88,4 @@ for elem=array
     set(arrow1, 'XData', transformation(1,:),'YData',  transformation(2,:), 'ZData', transformation(3,:));
     pause(1/25);
 end
-
 
