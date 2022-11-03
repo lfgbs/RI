@@ -12,10 +12,6 @@ list_of_exercises = {
    %'Ex3'
    %'Ex4'
    'Ex5'
-   %'Ex2mod'
-   %'Ex3'
-   %'Ex4'
-
   }; %Defines the exercise to be executed (one or more at a time).
 
 

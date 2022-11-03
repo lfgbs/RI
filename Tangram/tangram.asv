@@ -1,21 +1,24 @@
-function tangram(phi, theta)
+function tangram()
 
     clc % Clear all text from command window
-    close all % Close all figures previously opened 
+    close all % Close all figures previously opened
+    clear % Clear previous environment variables
+    clearvars 
     addpath RI/lib/
 
     l=1;
-    s=10;
+    s=5;
     p_name={'square' 't1' 't2' 't3' 't4' 't5' 'pgram'};
 
-    phi=deg2rad(phi);
-    theta=deg2rad(theta);
+    %PASSAR PARA ARGUMENTOS DA FUNÇÃO DEPOIS DE TERMINAR OS TESTES
+    phi=pi/2;
+    theta=0;
 
 
     grid on
     axis equal
     axis([-5*l 5*l -5*l 5*l -5*l 5*l])
-    view(3)
+    view(130, 20)
     hold on
 
     set(gcf, 'Position',  [1000, 150, 800, 700])
@@ -30,10 +33,10 @@ function tangram(phi, theta)
     pieces=createPieces(l, p_name);
 
     %formação inicial das peças sobre a base
-    [pieces, angles]=setInitialPosition(phi, theta, pieces, l, s);
+    [pieces, angles]=set_initial_position(phi, theta, pieces, l, s);
 
     %criar formações
-    [formations, init]=createFormations(l, angles);
+    formations=createFormations(l, angles);
     f_names=fieldnames(formations);
 
     %mexer peças
@@ -48,7 +51,7 @@ function tangram(phi, theta)
     end
 
     %voltar à posição horizontal
-    resetBoard(init, pieces, phi, theta,s);
+    pieces=resetBoard(formations, name, pieces);
 
 end
 
@@ -186,7 +189,7 @@ function [P, F]=create_pgram(l,t)
 end
 
 %move peças para a posição inicial
-function [pieces, angles]=setInitialPosition(phi, theta, pieces,l,s)
+function [pieces, angles]=set_initial_position(phi, theta, pieces,l,s)
     %%P_struct - Vector contendo as peças criadas
     fields=fieldnames(pieces);
 
@@ -445,7 +448,9 @@ function displayCompleted(pieces)
     %movimento das peças 
     fields=fieldnames(pieces);
 
-    for n=1:3
+    n=0;
+
+    while n<5
 
         for i=1:size(fields,1)
             name=fields(i);
@@ -454,7 +459,7 @@ function displayCompleted(pieces)
             set(pieces.(piece).handle, 'Facecolor', "#808080")
         end
 
-        pause(0.25)
+        pause(0.5)
 
         for i=1:size(fields,1)
             name=fields(i);
@@ -463,11 +468,13 @@ function displayCompleted(pieces)
             set(pieces.(piece).handle, 'Facecolor', pieces.(piece).color)
         end
 
-        pause(0.25)
+        pause(0.5)
+
+        n=n+1;
     end
 end
 
-function resetBoard(init, pieces, phi, theta, s)
+function pieces=resetBoard(formations, pieces_in, angles)
     %retorna o tabuleiro à posição original
     %pieces - struct devolvida que contém peças do jogo
 
@@ -479,32 +486,10 @@ function resetBoard(init, pieces, phi, theta, s)
     %set_initial_position de novo para repor as peças e depois começar
     %então outro ciclo de montagem de formação
 
-    angles_theta=linspace(0, theta ,s);
-    angles_phi=linspace(0, phi ,s);
-
-    fields=fieldnames(pieces);
+    fields=fieldnames(pieces_in);
 
 
     for i=1:size(fields,1)
-
-        name=fields(i);
-        piece=name{1};
-
-        T(:,:,:,1)=mrotz(linspace(0,init.(piece).rot1 ,s));
-        T(:,:,:,2)=mtrans(linspace(0, init.(piece).pos1(1), s), linspace(0, init.(piece).pos1(2), s), linspace(0, init.(piece).pos1(3), s)); 
-        T(:,:,:,3)=mrotz(linspace(0, init.(piece).rot2 ,s));
-        T(:,:,:,4)=mtrans(linspace(0, init.(piece).pos2(1), s), linspace(0, init.(piece).pos2(2), s), linspace(0, init.(piece).pos2(3), s));
-        T(:,:,:,5)=mroty(-angles_phi);
-        T(:,:,:,6)=mrotx(-angles_theta); 
-
-        order=[1,1,1,1,0,0];
-
-        %depois de definir as transformações necessárias para chegar à
-        %posiçao, animar
-        for n=1:size(T,4)
-            pieces.(piece).pI=manimate(pieces.(piece).handle, pieces.(piece).object, pieces.(piece).pI, T(:,:,:,n), order(n));
-        end
-
         
     end
   

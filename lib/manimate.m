@@ -11,16 +11,16 @@ function Tlast=manimate(h, P, Tcurr, Tset, ord)
     %objeto no fim da animação.
 
 
-    if nargin < 5
-        ord=zeros(1, size(Tset,3));
-    end
-
     m=size(Tset,3);
+
+    if nargin < 5
+        ord=zeros(1, m);
+    end
 
     %padding se o vetor for muito pequeno
     ord(end:m)=ord(end);
 
-    for n=1:size(Tset,3)
+    for n=1:m
 
         if ord(n)==1 %local
             TT=Tcurr*Tset(:,:,n);
@@ -31,7 +31,7 @@ function Tlast=manimate(h, P, Tcurr, Tset, ord)
 
         Pn=TT*P;
         set(h, 'Vertices', Pn(1:3,:)')
-        pause(0.05)
+        pause(0.03)
     end
 
     Tlast=TT;
