@@ -2,7 +2,7 @@ function tangram(phi, theta)
 
     clc % Clear all text from command window
     close all % Close all figures previously opened 
-    addpath RI/lib/
+    addpath '/lib'
 
     l=1;
     s=10;
@@ -17,6 +17,9 @@ function tangram(phi, theta)
     axis([-5*l 5*l -5*l 5*l -5*l 5*l])
     view(3)
     hold on
+
+    v = VideoWriter('tangram.avi');
+    open(v);
 
     set(gcf, 'Position',  [1000, 150, 800, 700])
 

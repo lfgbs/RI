@@ -21,7 +21,7 @@ function AnimateRobot(H, AAA, P, h, sd)
         h.YData=Org(2,:);
         h.ZData=Org(3,:);
 
-        %update frames positions
+        %upadte frames positions
 
         T=eye(4);
 
